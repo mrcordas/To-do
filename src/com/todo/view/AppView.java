@@ -12,6 +12,10 @@ public class AppView {
 		this.sc = sc;
 	}
 	
+	public void print(Object obj) {
+		System.out.print(obj);
+	}
+	
 	public static String logo() {
 		return "================================\n"+
 			   "         MINHAS TAREFAS         \n"+
@@ -19,20 +23,37 @@ public class AppView {
 	}
 	
 	
-	public int menu() {
+	public void menu() {
 		System.out.println(logo());
-		System.out.println("1 - Adicionar tarefa\n"
-						+ "2 - Listar tarefas\n"
-						+ "3 - Concluir tarefa\n"
-						+ "4 - Remover tarefa\n"
-						+ "5 - Sair\n");
-		System.out.print("Escolha: ");
-		
-		return Integer.parseInt(sc.nextLine());
-		
+		System.out.println( "1 - Adicionar tarefa\n"
+						  + "2 - Listar tarefas\n"
+						  + "3 - Concluir tarefa\n"
+						  + "4 - Remover tarefa\n"
+						  + "5 - Sair\n");
 	}
 	
-	public static void clear() {
+	public int readOptionMenu() {
+		System.out.print("Escolha: ");
+		return Integer.parseInt(sc.nextLine());
+	}
+	
+	public String readTaskDescription() {
+		
+		System.out.print("Digite a tarefa: ");
+		String taskDescription = sc.nextLine();
+		
+		return taskDescription;
+	}
+	
+	public int readTaskChangeStatus() {
+
+		System.out.print("Digite o ID da tarefa: ");
+		int id = Integer.parseInt(sc.nextLine());
+
+		return id;
+	}
+	
+	public static void screenClear() {
 		String so = System.getProperty("os.name").toLowerCase();
 		String[] command = {"cmd", "/c", "cls"};
 		Map<String, String> env = System.getenv();
@@ -41,7 +62,8 @@ public class AppView {
 			command = new String[] {"clear"};		
 		
 		try {
-			new ProcessBuilder(command).inheritIO().start().waitFor();
+			ProcessBuilder pb = new ProcessBuilder(command).inheritIO();
+			pb.start().waitFor();
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
