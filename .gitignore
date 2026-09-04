@@ -56,6 +56,7 @@ buildNumber.properties
 *.ipr
 
 # Eclipse
+bin/
 .metadata/
 .classpath
 .project
