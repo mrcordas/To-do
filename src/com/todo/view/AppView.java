@@ -45,9 +45,9 @@ public class AppView {
 		return taskDescription;
 	}
 	
-	public int readTaskChangeStatus() {
+	public int readTaskID() {
 
-		System.out.print("Digite o ID da tarefa: ");
+		System.out.print("\nDigite o ID da tarefa: ");
 		int id = Integer.parseInt(sc.nextLine());
 
 		return id;

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.todo.model.Task;
+import com.todo.util.TaskUtilities;
 import com.todo.view.AppView;
 
 public class TaskManagerService {
@@ -44,43 +45,38 @@ public class TaskManagerService {
 		appView.print("\nTarefa adicionada com sucesso! ");
 	}
 	
-	public void listTasks() {
+	public boolean listTasks() {
 		
 		appView.print("\n-------- TAREFAS --------\n\n");
 		
 		if(tasks.isEmpty()) {
 			appView.print("Sem tarefas cadastradas! ");
-			return;
+			return false;
 		}
 
 		for(Task task : tasks) {
 			appView.print(task + "\n");
 		}
 		
+		return true;
 	}
 	
 	public void completeTask() {
 		
-		if(tasks.isEmpty()) {
-			appView.print("Sem tarefas cadastradas! ");
+		if(!listTasks())
 			return;
-		}
 		
-		boolean anyNoCompleted = tasks.stream().anyMatch(task -> task.isCompleted() == false);
+		int id = appView.readTaskID();
 		
-		if(!anyNoCompleted) {
-			appView.print("Sem tarefas Para comcluir! ");
-			return;
-		}
-		
-		int id = appView.readTaskChangeStatus();
-		Optional<Task> optTask = tasks.stream().filter(task -> task.getId() == id)
-					  .findFirst();
-		
-		Task searchTask = optTask.orElse(null);
+		Task searchTask = TaskUtilities.searchByID(id, tasks);
 		
 		if(searchTask == null) {
 			appView.print("\nTarefa nao encontrada! ");
+			return;
+		}
+		
+		if(searchTask.isCompleted()) {
+			appView.print("Tarefa ja concluida");
 			return;
 		}
 			
@@ -88,4 +84,20 @@ public class TaskManagerService {
 		appView.print("\nTarefa concluida! ");
 	}
 	
+	public void removeTask() {
+		
+		if(!listTasks())
+			return;
+		
+		int id = appView.readTaskID();
+		Task searchTask = TaskUtilities.searchByID(id, tasks);
+
+		if(searchTask == null) {
+			appView.print("\nTarefa nao encontrada! ");
+			return;
+		}
+		
+		tasks.remove(searchTask);
+		appView.print("\nTarefa removida com sucesso! ");
+	}
 }

@@ -27,7 +27,7 @@ public class TaskController {
 				if (!optionError || option == -1)
 					option = appView.readOptionMenu();
 				else
-					appView.print("Escolha selecionada: " + option + "\n");
+					appView.print("Escolha: " + option + "\n");
 				
 				switch (option) {
 					case 1:
@@ -40,6 +40,7 @@ public class TaskController {
 						tms.completeTask();
 						break;
 					case 4:
+						tms.removeTask();
 						break;
 					case 5:
 						break; 	
